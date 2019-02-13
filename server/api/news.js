@@ -6,7 +6,7 @@ const router = express.Router()
 // Get
 router.get('/', async (req, res) => {
     const news = await loadNewsCollection();
-    res.send(await news.find({}).toArray());
+    res.send(await news.find({}).toArray().reverse());
 });
 
 router.post('/', async (req, res) => {
