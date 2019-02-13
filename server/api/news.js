@@ -5,8 +5,9 @@ const router = express.Router()
 
 // Get
 router.get('/', async (req, res) => {
-    const news = await loadNewsCollection();
-    res.send(await news.find({}).toArray().reverse());
+    const newsCollection = await loadNewsCollection();
+    const newsList = await newsCollection.find({}).toArray();
+    res.send(newsList.reverse());
 });
 
 router.post('/', async (req, res) => {
