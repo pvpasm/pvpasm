@@ -54,9 +54,7 @@ export default {
     }
   },
   created() {
-    try {
-      this.user = this.$cookies.get('username')
-    } catch (err) {}
+    this.user = this.$cookies.get('username')
   },
   methods: {
     async logout() {

@@ -29,7 +29,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~/plugins/vue-cookies', { src: '~plugins/vue-carousel', ssr: false }],
+  plugins: [{ src: '~plugins/vue-carousel', ssr: false }],
 
   /*
   ** Nuxt.js modules
@@ -48,7 +48,8 @@ module.exports = {
           icons: ['fas']
         }
       ]
-    }]
+    }],
+    'cookie-universal-nuxt'
   ],
   /*
   ** Axios module configuration
