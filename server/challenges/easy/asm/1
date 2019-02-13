@@ -1,0 +1,4 @@
+; a0 = edi
+xor eax, eax;
+sub eax, 1;
+add edi, eax;
