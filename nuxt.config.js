@@ -82,5 +82,9 @@ module.exports = {
   */
   router: {
     middleware: ['ssr-cookie']
+  },
+
+  axios: {
+    proxy: true
   }
 }
