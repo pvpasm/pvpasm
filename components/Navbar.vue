@@ -8,7 +8,7 @@
 
     <b-collapse id="nav_collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/challenge" :class="{ active: tab === 'Challenge' }">
+        <b-nav-item v-if="user" to="/challenge" :class="{ active: tab === 'Challenge' }">
           Challenge
         </b-nav-item>
         <b-nav-item to="/leaderboard" :class="{ active: tab === 'Leaderboard' }">
