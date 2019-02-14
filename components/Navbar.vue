@@ -8,20 +8,20 @@
 
     <b-collapse id="nav_collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item v-if="user" to="/challenge" :class="{ active: tab === 'Challenge' }">
+        <b-nav-item v-if="user" to="/challenge" :class="{ active: route === '/challenge' }">
           Challenge
         </b-nav-item>
-        <b-nav-item to="/leaderboard" :class="{ active: tab === 'Leaderboard' }">
+        <b-nav-item to="/leaderboard" :class="{ active: route === '/leaderboard' }">
           Leaderboard
         </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
         <b-navbar-nav v-if="!user">
-          <b-nav-item to="/login" :class="{ active: tab === 'Login' }">
+          <b-nav-item to="/login" :class="{ active: route === '/login' }">
             Login
           </b-nav-item>
-          <b-nav-item to="/register" :class="{ active: tab === 'Register' }">
+          <b-nav-item to="/register" :class="{ active: route === '/register' }">
             Register
           </b-nav-item>
         </b-navbar-nav>
@@ -42,19 +42,16 @@
 <script>
 export default {
   name: 'Navbar',
-  props: {
-    tab: {
-      default: '',
-      type: String
-    }
-  },
   data() {
-    return {
-      user: ''
-    }
+    return {}
   },
-  created() {
-    this.user = this.$cookies.get('username')
+  computed: {
+    user() {
+      return this.$cookies.get('username')
+    },
+    route() {
+      return this.$route.path
+    }
   },
   methods: {
     async logout() {
