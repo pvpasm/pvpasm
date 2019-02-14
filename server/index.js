@@ -14,10 +14,11 @@ app.use(cors({
   methods:['GET','POST'],
   credentials: true // enable set cookie
 }))
+
 const store = new MongoDBStore({
   uri: 'mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true',
   collection: 'sessions'
-})
+});
 app.use(session({
   secret: 'pvpasmabcdefghijklmnopqrstuvwxyz',
   cookie: {
@@ -27,8 +28,8 @@ app.use(session({
   // Boilerplate options, see:
   // * https://www.npmjs.com/package/express-session#resave
   // * https://www.npmjs.com/package/express-session#saveuninitialized
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false
 }))
 
 // routes
