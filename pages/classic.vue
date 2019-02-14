@@ -2,7 +2,13 @@
   <b-container class="content">
     <b-row class="h-100">
       <div class="mx-auto my-auto">
-        <carousel ref="carousel" :key="carouselKey" :perPage="1" class="my-5">
+        <carousel
+          ref="carousel"
+          :key="carouselKey"
+          :navigationEnabled="true"
+          :perPage="1"
+          class="my-auto"
+        >
           <slide>             
             <b-container class="h-100">
               <b-row class="h-100">
@@ -85,6 +91,13 @@ export default {
       return this.$store.state.challenge.numSolved
     }
   },
+  watch: {
+    numSolved(newv, oldv) {
+      if (newv === 3) {
+        this.end()
+      }
+    }
+  },
   methods: {
     async start() {
       if (!this.isStart) {
@@ -108,13 +121,6 @@ export default {
       this.numSolved--
 
       if (this.numSolved === 0) {
-        this.end()
-      }
-    }
-  },
-  watch: {
-    numSolved(newv, oldv) {
-      if (newv === 3) {
         this.end()
       }
     }
