@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', async (req, res) => {
     const userCollection = await loadUserCollection();
 
-    var leaderboard = await userCollection.find().sort({score: 1}).toArray();
+    var leaderboard = await userCollection.find().sort({score: -1}).toArray();
     res.send(leaderboard.map((item, index) => ({
         rank: index + 1,
         username: item.username,
