@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
     req.session.username = '';
-    res.clearCookie('username', 'danieliims');
+    res.clearCookie('username');
     res.status(200).send();
 });
 
