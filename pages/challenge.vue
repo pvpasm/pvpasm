@@ -43,7 +43,7 @@
       </b-col>
     </b-row>
   </b-container>
-</template>
+</template> 
 
 <script>
 import ChallengeHistory from '@/components/ChallengeHistory'
