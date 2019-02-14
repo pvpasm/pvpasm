@@ -37,7 +37,7 @@
           </b-list-group-item>
         </b-list-group>
 
-        <nuxt-link class="btn btn-secondary btn-lg btn-block mt-4 text-primary" to="/classic">
+        <nuxt-link class="btn btn-primary btn-lg btn-block mt-4" to="/classic">
           Start Challenge
         </nuxt-link>
       </b-col>
