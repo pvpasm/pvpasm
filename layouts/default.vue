@@ -1,6 +1,6 @@
 <template>
-  <div class="h-100">
-    <div class="h-100">
+  <div style="min-height: 100vh">
+    <div style="min-height: 100vh">
       <Navbar />
       
       <nuxt />

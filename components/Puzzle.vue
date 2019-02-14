@@ -16,10 +16,11 @@
             v-model="code"
             placeholder="Your code"
             :rows="3" 
+            :disabled="status != -1"
           />
         </b-form-group>
-
-        <b-button variant="secondary" block="true" :disabled="status != -1 || !code" @click="submit">
+        
+        <b-button variant="secondary" :block="true" :disabled="status != -1 || !code" @click="submit">
           Submit
         </b-button>
       </b-card>
@@ -55,15 +56,20 @@ export default {
         'bg-danger text-white': this.status === 0
       }
     },
-    submit() {
+    async submit() {
       // no time to validate with server
-      if (this.code === 'pass') {
-        this.status = 1
-      } else {
-        this.status = 0
-      }
+      const { data } = await this.$axios.post(
+        `/api/challenge/chall${this.num}`,
+        {
+          code: this.code
+        }
+      )
+      this.status = data.result
 
-      this.$emit('solved')
+      this.$store.commit('challenge/updatePuzzleStatus', {
+        index: this.num - 1,
+        status: this.status
+      })
     }
   }
 }

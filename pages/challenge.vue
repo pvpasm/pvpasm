@@ -1,11 +1,11 @@
 <template>
   <b-container>
     <b-row>
-      <b-col class="pt-5">
+      <b-col class="py-5" md="7">
         <ChallengeHistory />
       </b-col>
 
-      <b-col class="pt-5" offset="1">
+      <b-col class="py-5 ml-3">
         <b-list-group>
           <b-list-group-item class="active">
             <h5 class="mb-1">
@@ -49,7 +49,10 @@
 import ChallengeHistory from '@/components/ChallengeHistory'
 
 const getTimeText = time => {
-  return `(${Math.floor(time / 60)}m ${time % 60}s)`
+  const mm = Math.floor(time / 60 / 1000)
+  const ss = Math.floor(time / 1000) % 60
+  const ms = time % 1000
+  return `(${mm}m ${ss}s ${ms})`
 }
 
 const getRowVariant = win => {
@@ -71,7 +74,7 @@ export default {
     const challenges = data.map(item => ({
       ...item,
       myTime: getTimeText(item.myTime),
-      oppTime: item.oppTime === 0 ? '' : getTimeText(item.oppTime),
+      oppTime: !item.oppTime ? '' : getTimeText(item.oppTime),
       date: new Date(item.date),
       opponent: item.opponent ? item.opponent : '---',
       _rowVariant: getRowVariant(item.win)

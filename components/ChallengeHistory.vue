@@ -1,7 +1,7 @@
 <template>
   <b-table striped hover :items="challenges" :fields="fields">
     <template slot="result" slot-scope="data">
-      <div style="display: inline">
+      <div>
         <fa 
           v-for="(score, index) in data.item.myScore"
           :key="index"

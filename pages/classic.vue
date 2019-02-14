@@ -2,7 +2,7 @@
   <b-container class="content">
     <b-row class="h-100">
       <div class="mx-auto my-auto">
-        <carousel ref="carousel" :key="carouselKey" :perPage="1">
+        <carousel ref="carousel" :key="carouselKey" :perPage="1" class="my-5">
           <slide>             
             <b-container class="h-100">
               <b-row class="h-100">
@@ -77,33 +77,44 @@ export default {
     return {
       isStart: false,
       isDone: false,
-      numSolved: 3,
       carouselKey: 0
+    }
+  },
+  computed: {
+    numSolved() {
+      return this.$store.state.challenge.numSolved
     }
   },
   methods: {
     async start() {
-      // register start
-      await this.$axios.post(`/api/challenge/start`)
+      if (!this.isStart) {
+        // register start
+        await this.$axios.post(`/api/challenge/start`)
 
-      this.isStart = true
-      this.carouselKey += 1
-      // short delay for <Puzzle/> to be rendered
-      await sleep(5)
+        this.isStart = true
+        this.carouselKey += 1
+        // short delay for <Puzzle/> to be rendered
+        await sleep(1)
+      }
       this.$refs.carousel.goToPage(1)
     },
     async end() {
-      // get result
+      const { data } = await this.$axios.post(`/api/challenge/end`)
+      this.$store.commit('challenge/updateResult', data)
+
       this.isDone = true
-      this.carouselKey += 1
-      // short delay for <Result/> to be rendered
-      await sleep(5)
-      this.$refs.carousel.goToPage(4)
     },
     solved() {
       this.numSolved--
 
       if (this.numSolved === 0) {
+        this.end()
+      }
+    }
+  },
+  watch: {
+    numSolved(newv, oldv) {
+      if (newv === 3) {
         this.end()
       }
     }
