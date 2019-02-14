@@ -10,7 +10,11 @@
           label="Username"
           label-for="input-username"
         >
-          <b-form-input id="input-username" v-model.trim="username" />
+          <b-form-input 
+            id="input-username"
+            v-model.trim="username" 
+            @keyup.enter.native="login"
+          />
         </b-form-group>
 
         <b-form-group
@@ -18,7 +22,12 @@
           label="Password"
           label-for="input-password"
         >
-          <b-form-input id="input-password" v-model="password" type="password" />
+          <b-form-input
+            id="input-password"
+            v-model="password"
+            type="password"
+            @keyup.enter.native="login"
+          />
         </b-form-group>
 
         <b-button variant="primary" :disabled="!valid" @click="login">
@@ -64,6 +73,8 @@ export default {
   },
   methods: {
     async login() {
+      if (!this.valid) return
+
       this.error = ''
       try {
         await this.$axios.post(`/api/user/login`, {

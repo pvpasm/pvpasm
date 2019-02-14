@@ -10,7 +10,11 @@
           label="Username"
           label-for="input-username"
         >
-          <b-form-input id="input-username" v-model.trim="username" />
+          <b-form-input
+            id="input-username"
+            v-model.trim="username"
+            @keyup.enter.native="register"
+          />
         </b-form-group>
 
         <b-form-group
@@ -21,7 +25,12 @@
           :invalid-feedback="invalidPassword"
           :state="passwordState"
         >
-          <b-form-input id="input-password" v-model="password" type="password" />
+          <b-form-input
+            id="input-password"
+            v-model="password"
+            type="password"
+            @keyup.enter.native="register"
+          />
         </b-form-group>
 
         <b-form-group
@@ -32,10 +41,15 @@
           :invalid-feedback="invalidPassword"
           :state="passwordState"
         >
-          <b-form-input id="input-password2" v-model="password2" type="password" />
+          <b-form-input
+            id="input-password2"
+            v-model="password2"
+            type="password"
+            @keyup.enter.native="register"
+          />
         </b-form-group>
 
-        <b-button variant="primary" :disabled="!usernameState || !passwordState" @click="register">
+        <b-button variant="primary" :disabled="!valid" @click="register">
           Submit
         </b-button>
 
@@ -88,6 +102,8 @@ export default {
   },
   methods: {
     async register() {
+      if (!this.valid) return
+
       this.error = ''
       try {
         await this.$axios.post('/api/user/register', {
