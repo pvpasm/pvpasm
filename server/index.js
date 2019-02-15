@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
+const db = require('./api/db')
 
 app.use(bodyParser.json())
 app.use(cors({
@@ -16,7 +17,7 @@ app.use(cors({
 }))
 
 const store = new MongoDBStore({
-  uri: 'mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true',
+  uri: db.serverUrl,
   collection: 'sessions'
 });
 app.use(session({

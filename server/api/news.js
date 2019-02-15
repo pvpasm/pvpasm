@@ -1,17 +1,17 @@
 const express = require('express')
-const mongodb = require('mongodb')
+const db = require('./db')
 
 const router = express.Router()
 
 // Get
 router.get('/', async (req, res) => {
-    const newsCollection = await loadNewsCollection();
+    const newsCollection = await db.loadNewsCollection();
     const newsList = await newsCollection.find({}).toArray();
     res.send(newsList.reverse());
 });
 
 router.post('/', async (req, res) => {
-    const news = await loadNewsCollection();
+    const news = await db.loadNewsCollection();
     await news.insertOne({
         title: req.body.title,
         desc: req.body.desc,
@@ -19,13 +19,5 @@ router.post('/', async (req, res) => {
     });
     res.status(201).send();
 });
-
-async function loadNewsCollection() {
-    const client = await mongodb.MongoClient.connect("mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true", {
-        useNewUrlParser: true
-    })
-
-    return client.db('pvpasm').collection('news');
-}
 
 module.exports = router;

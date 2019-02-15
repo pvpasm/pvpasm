@@ -1,5 +1,5 @@
 const express = require('express');
-const mongodb = require('mongodb');
+const db = require('./db')
 const crypto = require('crypto');
 const fs = require('fs');
 
@@ -7,7 +7,7 @@ const router = express.Router();
 
 // get challenge history
 router.get('/history', async (req, res) => {
-  const challengeCollection = await loadChallengeCollection();
+  const challengeCollection = await db.loadChallengeCollection();
 
   if (!req.session.username) {
     res.status(400).send();
@@ -27,7 +27,7 @@ router.get('/history', async (req, res) => {
 });
 
 router.post('/start', async (req, res) => {
-  const challengeCollection = await loadChallengeCollection();
+  const challengeCollection = await db.loadChallengeCollection();
 
   var available = await challengeCollection.findOne({
     winner: "",
@@ -177,7 +177,7 @@ router.post('/end', async (req, res) => {
     return;
   }
 
-  const challengeCollection = await loadChallengeCollection();
+  const challengeCollection = await db.loadChallengeCollection();
 
   var duration = (new Date()).getTime() - req.session.challenge.start.getTime();
 
@@ -200,7 +200,7 @@ router.post('/end', async (req, res) => {
       }
     });
 
-    const userCollection = await loadUserCollection();
+    const userCollection = await db.loadUserCollection();
     const user = await userCollection.findOne({username: winner});
     await userCollection.updateOne({username: winner}, {
       $set:
@@ -230,22 +230,6 @@ router.post('/end', async (req, res) => {
   challenge = await challengeCollection.findOne({_id: id});
   res.status(200).json(formatChallengeEntry(challenge, req.session.username));
 });
-
-async function loadChallengeCollection() {
-  const client = await mongodb.MongoClient.connect("mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true", {
-    useNewUrlParser: true
-  })
-
-  return client.db('pvpasm').collection('challenge');
-};
-
-async function loadUserCollection() {
-  const client = await mongodb.MongoClient.connect("mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true", {
-    useNewUrlParser: true
-  })
-
-  return client.db('pvpasm').collection('user');
-}
 
 function isWin(score, time, oppScore, oppTime) {
   var points = 0;

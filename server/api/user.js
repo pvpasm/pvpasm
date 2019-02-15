@@ -1,11 +1,11 @@
 const express = require('express');
-const mongodb = require('mongodb');
+const db = require('./db');
 const crypto = require('crypto');
 
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-    const userCollection = await loadUserCollection();
+    const userCollection = await db.loadUserCollection();
 
     var user = await userCollection.findOne({
         username: req.body.username
@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const userCollection = await loadUserCollection();
+    const userCollection = await db.loadUserCollection();
 
     var user = await userCollection.findOne({
         username: req.body.username
@@ -73,13 +73,5 @@ function genRandomString(length) {
             .toString('hex') /** convert to hexadecimal format */
             .slice(0,length);   /** return required number of characters */
 };
-
-async function loadUserCollection() {
-    const client = await mongodb.MongoClient.connect("mongodb+srv://pvpasm:jxJJAySr7Jt8d8X7@pvpasm-rxxxy.mongodb.net/pvpasm?retryWrites=true", {
-        useNewUrlParser: true
-    })
-
-    return client.db('pvpasm').collection('user');
-}
 
 module.exports = router;
