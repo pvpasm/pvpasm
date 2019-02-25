@@ -48,13 +48,13 @@
             </b-container>
           </slide>
           <slide v-if="isStart">
+            <Puzzle :num="0" @solved="solved" />
+          </slide>
+          <slide v-if="isStart">
             <Puzzle :num="1" @solved="solved" />
           </slide>
           <slide v-if="isStart">
             <Puzzle :num="2" @solved="solved" />
-          </slide>
-          <slide v-if="isStart">
-            <Puzzle :num="3" @solved="solved" />
           </slide>
           <slide v-if="isDone">              
             <Result />

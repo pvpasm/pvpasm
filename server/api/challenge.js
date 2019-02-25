@@ -1,7 +1,8 @@
 const express = require('express');
 const db = require('./db')
-const crypto = require('crypto');
 const fs = require('fs');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 const router = express.Router();
 
@@ -51,124 +52,61 @@ router.post('/start', async (req, res) => {
   res.status(201).send();
 });
 
-router.get('/chall1', async (req, res) => {
+router.get('/chall/:mode', async (req, res) => {
+  var mode = req.params.mode;
+  if (mode < 0 || mode  > 2) {
+    res.status(400).send();
+    return;
+  }
+
   if (!req.session.challenge) {
     res.status(400).send();
     return;
   }
 
-  var challnum = req.session.challenge.challenges[0];
-
-  fs.readFile('server/challenges/easy/asm/' + challnum, (err, data) => {
+  var challnum = req.session.challenge.challenges[mode];
+  fs.readFile(`server/challenges/${mode}/${challnum}.s`, (err, data) => {
     if (err) throw err;
     res.status(200).send({code: data.toString()});
   });
 });
 
-router.get('/chall2', async (req, res) => {
-  if (!req.session.challenge) {
+router.post('/chall/:mode', async (req, res) => {
+  var mode = req.params.mode;
+  if (mode < 0 || mode  > 2) {
     res.status(400).send();
     return;
   }
 
-  var challnum = req.session.challenge.challenges[1];
-
-  fs.readFile('server/challenges/medium/asm/' + challnum, (err, data) => {
-    if (err) throw err;
-    res.status(200).send({code: data.toString()});
-  });
-});
-
-router.get('/chall3', async (req, res) => {
-  if (!req.session.challenge) {
-    res.status(400).send();
-    return;
-  }
-
-  var challnum = req.session.challenge.challenges[2];
-
-  fs.readFile('server/challenges/hard/asm/' + challnum, (err, data) => {
-    if (err) throw err;
-    res.status(200).send({code: data.toString()});
-  });
-});
-
-router.post('/chall1', async (req, res) => {
   if (!req.session.challenge || req.session.challenge.score[0] != -1) {
     res.status(400).send();
     return;
   }
 
-  var challnum = req.session.challenge.challenges[0];
+  var challnum = req.session.challenge.challenges[mode];
   var code = req.body.code;
   
-  var fullcode = `
-  #include <
+  code = code.replace("__asm__", "asm");
 
-  int main(int argc, char** argv) {
-    int 
-  }
-  `;
-
-  // compile code
-
-  // validate from 0-1000
-
-  req.session.challenge.score[0] = code === 'pass' ? 1 : 0;
-
-  res.status(200).json({result: req.session.challenge.score[0]});
-});
-
-router.post('/chall2', async (req, res) => {
-  if (!req.session.challenge || req.session.challenge.score[1] != -1) {
-    res.status(400).send();
+  var result = await exec(`cd server/grader; ./pregrade.sh ${req.sessionID} ${mode} ${challnum}`);
+  if (result.error) {
+    res.status(500).send();
     return;
   }
+  var dirname = result.stdout.trim();
 
-  var challnum = req.session.challenge.challenges[1];
-  var code = req.body.code;
-  
-  var fullcode = `
-  #include <
+  fs.writeFileSync(`server/grader/${dirname}/solution.c`, code);
 
-  int main(int argc, char** argv) {
-    int 
-  }
-  `;
-
-  // compile code
-
-  // validate from 0-1000
-
-  req.session.challenge.score[1] = code === 'pass' ? 1 : 0;
-
-  res.status(200).json({result: req.session.challenge.score[1]});
-});
-
-router.post('/chall3', async (req, res) => {
-  if (!req.session.challenge || req.session.challenge.score[2] != -1) {
-    res.status(400).send();
-    return;
+  try {
+    await exec(`cd server/grader; ./grade.sh ${dirname}`);
+    req.session.challenge.score[mode] = 1;
+  } catch(err) {
+    req.session.challenge.score[mode] = 0;
   }
 
-  var challnum = req.session.challenge.challenges[2];
-  var code = req.body.code;
-  
-  var fullcode = `
-  #include <
+  await exec(`cd server/grader; ./postgrade.sh ${dirname}`)
 
-  int main(int argc, char** argv) {
-    int 
-  }
-  `;
-
-  // compile code
-
-  // validate from 0-1000
-
-  req.session.challenge.score[2] = code === 'pass' ? 1 : 0;
-
-  res.status(200).json({result: req.session.challenge.score[2]});
+  res.status(200).json({result: req.session.challenge.score[mode]});
 });
 
 router.post('/end', async (req, res) => {

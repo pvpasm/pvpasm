@@ -41,11 +41,11 @@ export default {
     return {
       puzzle: '',
       status: -1,
-      code: ''
+      code: 'int f(int a) {}'
     }
   },
   async created() {
-    const { data } = await this.$axios.get(`/api/challenge/chall${this.num}`)
+    const { data } = await this.$axios.get(`/api/challenge/chall/${this.num}`)
     this.puzzle = data.code
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
     async submit() {
       // no time to validate with server
       const { data } = await this.$axios.post(
-        `/api/challenge/chall${this.num}`,
+        `/api/challenge/chall/${this.num}`,
         {
           code: this.code
         }
