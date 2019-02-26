@@ -6,6 +6,19 @@
         title="Register"
       >
         <b-form-group
+          id="field-email"
+          label="Email"
+          label-for="input-email"
+          :valid-feedback="validEmail"
+          :invalid-feedback="invalidEmail"
+          :state="emailState"
+        >
+        <b-form-input 
+          id="input-email"
+          v-model.trim="email"
+        />
+        </b-form-group>
+        <b-form-group
           id="field-username"
           label="Username"
           label-for="input-username"
@@ -72,12 +85,16 @@ export default {
   data() {
     return {
       error: false,
+      email: '',
       username: '',
       password: '',
       password2: ''
     }
   },
   computed: {
+    emailState() {
+      return this.email.length > 0
+    },
     usernameState() {
       return this.username.length > 0
     },
@@ -85,7 +102,13 @@ export default {
       return this.password === this.password2 && this.password.length > 0
     },
     valid() {
-      return this.usernameState && this.passwordState
+      return this.usernameState && this.passwordState && this.emailState
+    },
+    validEmail() {
+      return ''
+    },
+    invalidEmail() {
+      return 'Invalid email'
     },
     invalidPassword() {
       if (this.passwordState) {
@@ -107,6 +130,7 @@ export default {
       this.error = ''
       try {
         await this.$axios.post('/api/user/register', {
+          email: this.email,
           username: this.username,
           password: this.password
         })

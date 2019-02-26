@@ -33,7 +33,10 @@ router.post('/register', async (req, res) => {
     const userCollection = await db.loadUserCollection();
 
     var user = await userCollection.findOne({
-        username: req.body.username
+        $or: [
+            { username: req.body.username },
+            { email: req.body.email }
+        ]
     });
 
     if (user) {
@@ -80,8 +83,13 @@ router.post('/forgot', async (req, res) => {
     const userCollection = await db.loadUserCollection();
 
     var user = await userCollection.findOne({
-        username: req.session.username
+        email: req.body.email
     });
+
+    if (!user) {
+        res.status(400).json({ error: 'No user with this email exists. '});
+        return;
+    }
 
     const new_pass = randomPassword();
     const salt = genRandomString(16);
@@ -94,7 +102,7 @@ router.post('/forgot', async (req, res) => {
         }
     });
     
-    await sendResetEmail(user.email, new_pass, (err) => {
+    await sendResetEmail(req.body.email, new_pass, (err) => {
         if (err) {
             console.log("Callback");
             console.log(err);

@@ -33,9 +33,9 @@
         <b-button variant="primary" :disabled="!valid" @click="login">
           Submit
         </b-button>
-        <a href="forgot-password" class="card-link px-4">
+        <nuxt-link to="forgot" class="card-link px-4">
           Forgot password?
-        </a>
+        </nuxt-link>
 
         <b-alert 
           class="mt-4" 
