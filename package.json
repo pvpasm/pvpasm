@@ -31,6 +31,8 @@
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "googleapis": "^27.0.0",
+    "nodemailer": "^5.1.1",
     "nuxt": "^2.4.0",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-universal-cookies": "0.0.5",

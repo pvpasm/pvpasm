@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./db');
 const crypto = require('crypto');
+const { sendResetEmail } = require('./mail');
 
 const router = express.Router();
 
@@ -44,6 +45,7 @@ router.post('/register', async (req, res) => {
     var hash = sha512(req.body.password, salt);
 
     await userCollection.insertOne({
+        email: req.body.email,
         username: req.body.username,
         hash: hash,
         salt: salt,
@@ -73,5 +75,44 @@ function genRandomString(length) {
             .toString('hex') /** convert to hexadecimal format */
             .slice(0,length);   /** return required number of characters */
 };
+
+router.post('/forgot', async (req, res) => {
+    const userCollection = await db.loadUserCollection();
+
+    var user = await userCollection.findOne({
+        username: req.session.username
+    });
+
+    const new_pass = randomPassword();
+    const salt = genRandomString(16);
+    const hash = sha512(new_pass, salt);
+    await userCollection.updateOne({username: user.username}, {
+        $set: 
+        {
+          salt: salt,
+          hash: hash
+        }
+    });
+    
+    await sendResetEmail(user.email, new_pass, (err) => {
+        if (err) {
+            console.log("Callback");
+            console.log(err);
+            res.status(500).send();
+        }
+        else
+            res.status(200).send();
+    });
+});
+
+function randomPassword() {
+    var pwd = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+
+    for (var i = 0; i < 12; i++)
+        pwd += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return pwd;
+}
 
 module.exports = router;
