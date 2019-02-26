@@ -3,26 +3,33 @@
     <b-row class="h-100">
       <b-card class="mx-auto my-auto w-75" :class="getCardClass()">
         <b-row class="py-4 mx-auto">
-          <code class="code">{{ puzzle }}</code>
-        </b-row>
+          <b-col>
+            <code class="code">{{ puzzle }}</code>
+          </b-col>
 
-        <b-form-group
-          id="field-code"
-          label="Code"
-          label-for="input-code"
-        >
-          <b-form-textarea 
-            id="input-code"
-            v-model="code"
-            placeholder="Your code"
-            :rows="3" 
-            :disabled="status != -1"
-          />
-        </b-form-group>
-        
-        <b-button variant="secondary" :block="true" :disabled="status != -1 || !code" @click="submit">
-          Submit
-        </b-button>
+          <b-col>
+            <b-form-group
+              id="field-code"
+              label-for="input-code"
+            >
+              <b-form-textarea 
+                id="input-code"
+                v-model="code"
+                placeholder="Your code"
+                :rows="3" 
+                :disabled="status != -1"
+              />
+            </b-form-group>
+            
+            <b-button variant="secondary" :block="true" :disabled="status != -1 || !code" @click="submit" v-if="!ended">
+              Submit
+            </b-button>
+
+            <b-button variant="primary" :block="true" v-on:click="$emit('viewResults')" v-if="ended">
+              View Results
+            </b-button>
+          </b-col>
+        </b-row>
       </b-card>
     </b-row>
   </b-container>
@@ -42,6 +49,11 @@ export default {
       puzzle: '',
       status: -1,
       code: 'int f(int a) {}'
+    }
+  },
+  computed: {
+    ended() {
+      return this.$store.state.challenge.numSolved === 3
     }
   },
   async created() {
@@ -67,7 +79,7 @@ export default {
       this.status = data.result
 
       this.$store.commit('challenge/updatePuzzleStatus', {
-        index: this.num - 1,
+        index: this.num,
         status: this.status
       })
     }

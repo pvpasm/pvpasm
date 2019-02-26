@@ -6,6 +6,10 @@ export const state = () => ({
 })
 
 export const mutations = {
+  reset(state, mutation) {
+    state.puzzleStatus = [-1, -1, -1]
+    state.numSolved = 0
+  },
   updateHistory(state, history) {
     state.history = history
   },

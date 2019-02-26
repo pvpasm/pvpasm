@@ -78,7 +78,7 @@ router.post('/chall/:mode', async (req, res) => {
     return;
   }
 
-  if (!req.session.challenge || req.session.challenge.score[0] != -1) {
+  if (!req.session.challenge || req.session.challenge.score[mode] != -1) {
     res.status(400).send();
     return;
   }
