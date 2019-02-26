@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     res.send(leaderboard.map((item, index) => ({
         rank: index + 1,
         username: item.username,
+        comment: item.comment,
         score: item.score
     })));
 });

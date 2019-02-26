@@ -52,7 +52,8 @@ router.post('/register', async (req, res) => {
         username: req.body.username,
         hash: hash,
         salt: salt,
-        score: 0
+        score: 0,
+        comment: ''
     });
 
     req.session.username = req.body.username;
@@ -60,6 +61,57 @@ router.post('/register', async (req, res) => {
 
     res.status(201).send();
 });
+
+router.get('/profile', async (req, res) => {
+    if (!req.session.username) {
+      res.status(400).send();
+      return;
+    }
+
+    const userCollection = await db.loadUserCollection();
+    var user = await userCollection.findOne({ username: req.session.username });
+
+    res.status(200).json({
+        username: user.username,
+        email: user.email,
+        comment: user.comment
+    })
+})
+
+router.post('/profile', async (req, res) => {
+    if (!req.session.username) {
+      res.status(400).send();
+      return;
+    }
+
+    const userCollection = await db.loadUserCollection();
+    var user = await userCollection.findOne({ username: req.session.username });
+
+    var hash = sha512(req.body.password, user.salt);
+    if (hash !== user.hash) {
+        res.status(400).json({ error: 'Wrong password'});
+        return;
+    }
+
+    if (req.body.newPassword) {
+        user.salt = genRandomString(16);
+        user.hash = sha512(req.body.newPassword, user.salt);
+    }
+    
+    if (req.body.email) {
+        var emailUser = await userCollection.findOne({ email: req.body.email });
+        if (emailUser && emailUser.username !== req.session.username) {
+            res.status(400).json({ error: 'This email is already used' })
+            return;
+        }
+        user.email = req.body.email;
+    }
+
+    user.comment = req.body.comment;
+
+    await userCollection.updateOne({username: user.username}, { $set: user });
+    res.status(200).send();
+})
 
 router.post('/logout', async (req, res) => {
     req.session.username = '';

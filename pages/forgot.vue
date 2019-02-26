@@ -13,6 +13,7 @@
           >
           <b-form-input 
             id="input-email"
+            type="email"
             v-model.trim="email" 
             @keyup.enter.native="forgot"
           />
@@ -44,7 +45,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'Forgot',
   data() {
     return {
       error: '',

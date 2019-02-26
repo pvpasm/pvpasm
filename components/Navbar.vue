@@ -30,6 +30,9 @@
           <template slot="button-content">
             {{ user }}
           </template>
+          <b-dropdown-item class="bg-white text-primary" href="profile">
+            Profile
+          </b-dropdown-item>
           <b-dropdown-item class="bg-white text-primary" href="#" @click="logout">
             Logout
           </b-dropdown-item>
