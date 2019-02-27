@@ -1,22 +1,26 @@
 html {
-    height: 100vh !important;
+    height: 100% !important;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
-    min-height: 100vh !important;
+    height: 100% !important;
 }
 
 #__nuxt {
     min-height: 100vh !important;
-    /* min-height: 100% !important; */
+    position: relative;
 }
 
 #__layout {
     min-height: 100vh !important;
-}
-
-.content {
-    height: 88vh !important;
+    position: relative;
 }
 
 .VueCarousel-dot-container {
