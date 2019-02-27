@@ -1,120 +1,115 @@
 <template>
-  <b-container class="content">
-    <b-row class="h-100">
-      <b-card 
-        class="border-primary my-auto mx-auto w-50"
-        title="Profile"
-      >
-        <b-form-group
-          id="field-username"
-          label="Username"
-          label-for="input-username"
-        >
-          <b-form-input
-            id="input-username"
-            v-model="username"
-            disabled
-          />
-        </b-form-group>
+  <b-container class="py-5">
+    <h3 class="pb-4">Edit your information</h3>
 
-        <b-form-group
-          id="field-email"
-          label="Email"
-          label-for="input-email"
-          :valid-feedback="validEmail"
-          :invalid-feedback="invalidEmail"
-          :state="emailState"
-        >
-          <b-form-input 
-            id="input-email"
-            type="email"
-            v-model.trim="email"
-          />
-        </b-form-group>
+    <b-form-group
+      id="field-username"
+      label="Username"
+      label-for="input-username"
+    >
+      <b-form-input
+        id="input-username"
+        v-model="username"
+        disabled
+      />
+    </b-form-group>
 
-        <b-form-group
-          id="field-comment"
-          label-for="input-comment"
-          label="Comment"
-        >
-          <b-form-textarea 
-            id="input-comment"
-            v-model="comment"
-            :rows="3"
-          />
-        </b-form-group>
+    <b-form-group
+      id="field-email"
+      label="Email"
+      label-for="input-email"
+      :valid-feedback="validEmail"
+      :invalid-feedback="invalidEmail"
+      :state="emailState"
+    >
+      <b-form-input 
+        id="input-email"
+        type="email"
+        v-model.trim="email"
+      />
+    </b-form-group>
 
-        <b-form-group
-          id="field-current-password"
-          label="Current Password"
-          label-for="input-current-password"
-          :state="currentPasswordState"
-          :valid-feedback="validCurrentPassword"
-          :invalid-feedback="invalidCurrentPassword"
-        >
-          <b-form-input
-            id="input-current-password"
-            v-model="currentPassword"
-            type="password"
-            @keyup.enter.native="register"
-          />
-        </b-form-group>
+    <b-form-group
+      id="field-comment"
+      label-for="input-comment"
+      label="Comment"
+    >
+      <b-form-textarea 
+        id="input-comment"
+        v-model="comment"
+        :rows="3"
+      />
+    </b-form-group>
 
-        <b-form-group
-          id="field-password"
-          label="Password"
-          label-for="input-password"
-          :valid-feedback="validPassword"
-          :invalid-feedback="invalidPassword"
-          :state="passwordState"
-        >
-          <b-form-input
-            id="input-password"
-            v-model="password"
-            type="password"
-            @keyup.enter.native="register"
-          />
-        </b-form-group>
+    <b-form-group
+      id="field-current-password"
+      label="Current Password"
+      label-for="input-current-password"
+      :state="currentPasswordState"
+      :valid-feedback="validCurrentPassword"
+      :invalid-feedback="invalidCurrentPassword"
+    >
+      <b-form-input
+        id="input-current-password"
+        v-model="currentPassword"
+        type="password"
+        @keyup.enter.native="register"
+      />
+    </b-form-group>
 
-        <b-form-group
-          id="field-password2"
-          label="Confirm Password"
-          label-for="input-password2"
-          :valid-feedback="validPassword"
-          :invalid-feedback="invalidPassword"
-          :state="passwordState"
-        >
-          <b-form-input
-            id="input-password2"
-            v-model="password2"
-            type="password"
-            @keyup.enter.native="register"
-          />
-        </b-form-group>
+    <b-form-group
+      id="field-password"
+      label="Password"
+      label-for="input-password"
+      :valid-feedback="validPassword"
+      :invalid-feedback="invalidPassword"
+      :state="passwordState"
+    >
+      <b-form-input
+        id="input-password"
+        v-model="password"
+        type="password"
+        @keyup.enter.native="register"
+      />
+    </b-form-group>
 
-        <b-button variant="primary" :disabled="!valid" @click="update">
-          Update
-        </b-button>
+    <b-form-group
+      id="field-password2"
+      label="Confirm Password"
+      label-for="input-password2"
+      :valid-feedback="validPassword"
+      :invalid-feedback="invalidPassword"
+      :state="passwordState"
+    >
+      <b-form-input
+        id="input-password2"
+        v-model="password2"
+        type="password"
+        @keyup.enter.native="register"
+      />
+    </b-form-group>
 
-        <b-alert 
-          class="mt-4"
-          variant="danger"
-          dismissible
-          :show="error.length > 0"
-        >
-          {{ error }}
-        </b-alert>
+    <b-button variant="primary" :disabled="!valid" @click="update">
+      Update
+    </b-button>
 
-        <b-alert 
-          class="mt-4"
-          variant="success"
-          dismissible
-          :show="success"
-        >
-          Successfully updated profile!
-        </b-alert>
-      </b-card>
-    </b-row>
+    <b-alert 
+      class="mt-4"
+      variant="danger"
+      dismissible
+      :show="error.length > 0"
+    >
+      {{ error }}
+    </b-alert>
+
+    <b-alert 
+      class="mt-4"
+      variant="success"
+      dismissible
+      :show="success"
+    >
+      Successfully updated profile!
+    </b-alert>
   </b-container>
 </template>
 
