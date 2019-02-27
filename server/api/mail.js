@@ -30,10 +30,9 @@ async function sendResetEmail(recipient, new_pass, cb) {
 
     const mailOptions = {
         from: "weesoong.lim@gmail.com",
-        to: recipient,
+        to: recipient.email,
         subject: "[pvpasm] Password reset",
-        generateTextFromHTML: true,
-        html: `You have requested a password reset for pvpasm. Your new password is ${new_pass}.`
+        text: `Hi ${recipient.username},\n\nYou have requested a password reset for pvpasm. Your new password is ${new_pass}.`
     };
 
     smtpTransport.sendMail(mailOptions, (err, res) => {

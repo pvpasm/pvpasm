@@ -154,7 +154,7 @@ router.post('/forgot', async (req, res) => {
         }
     });
     
-    await sendResetEmail(req.body.email, new_pass, (err) => {
+    await sendResetEmail(user, new_pass, (err) => {
         if (err) {
             console.log("Callback");
             console.log(err);

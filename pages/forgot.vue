@@ -7,6 +7,9 @@
       id="field-email"
       label="Email"
       label-for="input-email"
+      :valid-feedback="validEmail"
+      :invalid-feedback="invalidEmail"
+      :state="emailState"
       >
       <b-form-input 
         id="input-email"
@@ -55,6 +58,13 @@ export default {
     emailState() {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(this.email).toLowerCase()) && this.email.length > 0
+    },
+    validEmail() {
+      return ''
+    },
+    invalidEmail() {
+      if (this.email.length > 0) return 'Invalid email'
+      return ''
     }
   },
   methods: {

@@ -37,8 +37,7 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-universal-cookies": "0.0.5",
     "vue-carousel": "^0.17.0",
-    "vue-cookies": "^1.5.12",
-    "vuelidate": "^0.7.4"
+    "vue-cookies": "^1.5.12"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
