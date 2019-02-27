@@ -2,7 +2,7 @@
   <b-container class="h-100">
     <b-row class="h-100">
       <b-card 
-        class="mx-auto my-auto text-white w-50"
+        class="mx-auto my-auto text-white w-50 result-card"
         align-v="center"
         :bg-variant="getBgVariant(result.win)"
       >
@@ -102,3 +102,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.result-card {
+  border-radius: 0;
+  border: 0;
+}
+</style>

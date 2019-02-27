@@ -1,36 +1,70 @@
 <template>
   <b-container class="h-100">
     <b-row class="h-100">
-      <b-card class="mx-auto my-auto w-75" :class="getCardClass()">
-        <b-row class="py-4 mx-auto">
-          <b-col>
-            <code class="code">{{ puzzle }}</code>
+      <div class="mx-auto my-auto puzzle-container">
+        <b-row>
+          <b-col md="4">
+            <code class="code h-100">{{ puzzle }}</code>
           </b-col>
 
           <b-col>
-            <b-form-group
-              id="field-code"
-              label-for="input-code"
-            >
-              <b-form-textarea 
-                id="input-code"
-                v-model="code"
-                placeholder="Your code"
-                :rows="3" 
-                :disabled="status != -1"
-              />
-            </b-form-group>
-            
-            <b-button variant="secondary" :block="true" :disabled="status != -1 || !code" @click="submit" v-if="!ended">
-              Submit
-            </b-button>
+            <no-ssr placeholder="Codemirror Loading...">
+              <codemirror 
+                v-model="code" 
+                :options="cmOptions"
+              >
+              </codemirror>
+            </no-ssr>
 
-            <b-button variant="primary" :block="true" v-on:click="$emit('viewResults')" v-if="ended">
-              View Results
-            </b-button>
+            <b-row class="mt-3" v-if="status == -1">
+              <b-col>
+                <b-form-select
+                  v-model="theme"
+                  :options="themes"
+                  @change="updateTheme"
+                  size="sm"
+                />
+              </b-col>
+              
+              <b-col>
+                <b-button
+                  class="code-button float-right"
+                  variant="primary"
+                  :disabled="status != -1 || !code"
+                  v-if="!ended"
+                  @click="submit"
+                >
+                  Submit
+                </b-button>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
-      </b-card>
+        
+        <b-row v-if="error">
+          <div class="puzzle-result m-3 w-100 p-3">
+            <h5 class="mb-3">Compilation Failed</h5>
+            <pre class="error-msg">
+              {{ error }}
+            </pre>
+          </div>
+        </b-row>
+
+        <b-row v-if="status != -1">
+          <div class="puzzle-result m-3 w-100 p-3">
+            <div v-if="correct">
+              Passed all test cases <fa icon="check" class="mx-1" style="color: green" />
+            </div>
+            <div v-else>
+              Failed <fa icon="times" class="mx-1" style="color: red" />
+            </div>
+          </div>
+        </b-row>
+
+        <b-button class="float-right" variant="primary" v-on:click="$emit('viewResults')" v-if="ended">
+          View Results
+        </b-button>
+      </div>
     </b-row>
   </b-container>
 </template>
@@ -46,14 +80,38 @@ export default {
   },
   data() {
     return {
+      error: '',
       puzzle: '',
       status: -1,
-      code: 'int f(int a) {}'
+      theme: 'material',
+      themes: [
+        { value: 'default', text: 'light' },
+        { value: 'material', text: 'dark' }
+      ],
+      code: 'int f(int a) {\n    \n}',
+      cmOptions: {
+        tabSize: 4,
+        foldGutter: true,
+        styleActiveLine: true,
+        lineNumbers: true,
+        line: true,
+        keyMap: 'sublime',
+        mode: 'text/x-csrc',
+        theme: 'material',
+        extraKeys: {
+          Tab(cm) {
+            cm.replaceSelection('    ')
+          }
+        }
+      }
     }
   },
   computed: {
     ended() {
       return this.$store.state.challenge.numSolved === 3
+    },
+    correct() {
+      return this.status === 1
     }
   },
   async created() {
@@ -69,7 +127,8 @@ export default {
       }
     },
     async submit() {
-      // no time to validate with server
+      this.error = ''
+
       const { data } = await this.$axios.post(
         `/api/challenge/chall/${this.num}`,
         {
@@ -77,11 +136,17 @@ export default {
         }
       )
       this.status = data.result
+      this.error = data.error
 
-      this.$store.commit('challenge/updatePuzzleStatus', {
-        index: this.num,
-        status: this.status
-      })
+      if (this.status !== -1) {
+        this.$store.commit('challenge/updatePuzzleStatus', {
+          index: this.num,
+          status: this.status
+        })
+      }
+    },
+    updateTheme(newTheme) {
+      this.cmOptions.theme = newTheme
     }
   }
 }
@@ -89,7 +154,24 @@ export default {
 
 <style>
 textarea {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.code-button {
+  position: relative;
+  bottom: 0;
+}
+
+.puzzle-container {
+  width: 95%;
+}
+
+.puzzle-result {
+  background: #f7f7f7;
+}
+
+.error-msg {
+  font-family: 'Source Code Pro', monospace;
+  white-space: pre-line;
 }
 </style>

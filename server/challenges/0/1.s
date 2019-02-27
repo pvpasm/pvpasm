@@ -1,4 +1,4 @@
-xor rax, rax;
-add rax, 1;
-add rax, rdi;
+xor eax, eax;
+add eax, 1;
+add eax, edi;
 ret;

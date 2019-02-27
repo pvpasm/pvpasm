@@ -97,21 +97,45 @@ router.post('/chall/:mode', async (req, res) => {
 
   fs.writeFileSync(`server/grader/${dirname}/solution.c`, code);
 
+  var result;
+  var gccError = '';
   try {
     await exec(`cd server/grader; ./grade.sh ${dirname}`);
-    req.session.challenge.score[mode] = 1;
+    result = 1;
   } catch(err) {
-    req.session.challenge.score[mode] = 0;
+    result = 0;
   }
+
+  if (result) {
+    try {
+      gccError = fs.readFileSync(`server/grader/${dirname}/log.txt`).toString().trim();
+      result = -1;
+    } catch (err) {
+      result = 1;
+    }
+  }
+
+  req.session.challenge.score[mode] = result;
 
   await exec(`cd server/grader; ./postgrade.sh ${dirname}`)
 
-  res.status(200).json({result: req.session.challenge.score[mode]});
+  res.status(200).json({ result: req.session.challenge.score[mode], error: gccError });
 });
 
 router.post('/end', async (req, res) => {
   if (!req.session.challenge) {
     res.status(400).send();
+    return;
+  }
+
+  var numSolved = 0;
+  for (var i = 0; i < 3; ++i) {
+    if (req.session.challenge.score[i] !== -1)
+      numSolved++;
+  }
+
+  if (numSolved !== 3) {
+    req.status(400).send();
     return;
   }
 

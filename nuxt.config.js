@@ -13,7 +13,11 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Orbitron'},
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Code+Pro'}
+    ]
   },
 
   /*
@@ -24,12 +28,24 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['@assets/css/bootstrap.min.css', '@assets/css/pvpasm.css'],
+  css: [
+    '@assets/css/bootstrap.min.css',
+    '@assets/css/pvpasm.css',
+    // lib css
+    'codemirror/lib/codemirror.css',
+    // merge css
+    'codemirror/addon/merge/merge.css',
+    // theme css
+    'codemirror/theme/material.css'
+  ],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [{ src: '~plugins/vue-carousel', ssr: false }],
+  plugins: [
+    { src: '~plugins/vue-carousel', ssr: false },
+    { src: '~plugins/vue-codemirror', ssr: false }
+  ],
 
   /*
   ** Nuxt.js modules
