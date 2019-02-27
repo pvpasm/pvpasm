@@ -1,5 +1,5 @@
 <template>
-  <b-table striped hover :items="challenges" :fields="fields">
+  <b-table striped hover :outlined="true" :items="challenges" :fields="fields">
     <template slot="result" slot-scope="data">
       <div>
         <fa 

@@ -1,6 +1,6 @@
 <template>
   <b-container class="py-4">
-    <b-table striped hover :items="leaderboard" />
+    <b-table :outlined="true" striped hover :items="leaderboard" />
   </b-container>
 </template>
 
