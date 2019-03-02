@@ -1,5 +1,5 @@
 <template>
-  <b-container class="pt-5">
+  <b-container class="my-5">
     <b-row>
       <b-col>
         <About />
