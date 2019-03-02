@@ -1,11 +1,11 @@
 <template>
-  <b-container>
+  <b-container class="pt-5">
     <b-row>
-      <b-col class="pt-5">
-        <News />
-      </b-col>
-      <b-col class="pt-5" offset="1">
+      <b-col>
         <About />
+      </b-col>
+      <b-col offset="1">
+        <News />
       </b-col>
     </b-row>
   </b-container>
