@@ -9,10 +9,10 @@
     <b-collapse id="nav_collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item v-if="user" to="/challenge" :class="{ active: route === '/challenge' }">
-          Challenge
+          CHALLENGE
         </b-nav-item>
         <b-nav-item to="/leaderboard" :class="{ active: route === '/leaderboard' }">
-          Leaderboard
+          LEADERBOARD
         </b-nav-item>
       </b-navbar-nav>
 
