@@ -30,9 +30,6 @@
                       <li class="py-2">
                         You will provide a C function that best represents that snippet, which will be validated by the server through a series of test cases.
                       </li>
-                      <li class="py-2">
-                        As of now, only the function signature <code>int f(int a)</code> is present. More will be added in the future.
-                      </li>
                     </ul>
                   </div>
                 </b-col>
@@ -50,7 +47,7 @@ add eax, edi;</code>
 
                   <code class="code">int f(int a)
 {
-  return a - 1;
+  return a + 1;
 }</code>
                 </b-col>
               </b-row>

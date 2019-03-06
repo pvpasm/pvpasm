@@ -53,7 +53,7 @@ router.post('/start', async (req, res) => {
 });
 
 router.get('/chall/:mode', async (req, res) => {
-  var mode = req.params.mode;
+  const mode = req.params.mode;
   if (mode < 0 || mode  > 2) {
     res.status(400).send();
     return;
@@ -64,10 +64,24 @@ router.get('/chall/:mode', async (req, res) => {
     return;
   }
 
-  var challnum = req.session.challenge.challenges[mode];
-  fs.readFile(`server/challenges/${mode}/${challnum}.s`, (err, data) => {
-    if (err) throw err;
-    res.status(200).send({code: data.toString()});
+  const challnum = req.session.challenge.challenges[mode];
+  const code = fs.readFileSync(`server/challenges/${mode}/${challnum}/chall.s`).toString();
+
+  const types = fs.readFileSync(`server/challenges/${mode}/${challnum}/chall.f`).toString().split('\n');
+  const rettype = types[0];
+  const params = types[1].split(',');
+  var func = `${rettype} f(`;
+
+  for (var i = 0; i < params.length; ++i) {
+    if (i > 0) func += ', ';
+    func += `${params[i].trim()} a${i}`;
+  }
+
+  func += `)`
+  
+  res.status(200).send({
+    code,
+    func
   });
 });
 

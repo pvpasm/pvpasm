@@ -88,7 +88,6 @@ export default {
         { value: 'default', text: 'light' },
         { value: 'material', text: 'dark' }
       ],
-      code: 'int f(int a) {\n    \n}',
       cmOptions: {
         tabSize: 4,
         foldGutter: true,
@@ -117,6 +116,7 @@ export default {
   async created() {
     const { data } = await this.$axios.get(`/api/challenge/chall/${this.num}`)
     this.puzzle = data.code
+    this.code = `${data.func}\n{\n\n}`
   },
   methods: {
     getCardClass() {

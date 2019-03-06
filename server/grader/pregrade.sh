@@ -15,11 +15,17 @@ cd $dirname
 
 cp ../template/grader.c .
 
-echo global $chall > $3.s
-echo "section .text" >> $3.s
-echo $chall >> $3.s
-cat ../../challenges/$2/$3.s >> $3.s
+func=`cat ../../challenges/$2/$3/chall.f`
+IFS=$'\n' types=( $func )
 
-nasm -f $arch $3.s -o challenge.o
+echo ${types[0]} 'f('${types[1]}');' >> chall.h
+echo ${types[0]} 'chall('${types[1]}');' >> chall.h
+
+echo global $chall > chall.s
+echo "section .text" >> chall.s
+echo $chall >> chall.s
+cat ../../challenges/$2/$3/chall.s >> chall.s
+
+nasm -f $arch chall.s -o chall.o
 
 echo $dirname

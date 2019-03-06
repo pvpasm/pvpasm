@@ -1,13 +1,11 @@
 #include <time.h>
 #include <stdlib.h>
+#include "chall.h"
 
 // only seccomp if on production server
 #ifdef linux
 #include <seccomp.h>
 #endif
-
-extern int chall(int a);
-extern int f(int a);
 
 int main() {
     #ifdef linux
