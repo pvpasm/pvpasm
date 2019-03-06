@@ -6,73 +6,75 @@
 
     <b-container>
       <div class="mx-auto my-5">
-        <carousel
-          ref="carousel"
-          :key="carouselKey"
-          :navigationEnabled="true"
-          :perPage="1"
-          :mouseDrag="false"
-        >
-          <slide>
-            <b-container class="my-5">
-              <b-row>
-                <b-col>
-                  <h4>How to play?</h4>
+        <no-ssr>
+          <carousel
+            ref="carousel"
+            :key="carouselKey"
+            :navigationEnabled="true"
+            :perPage="1"
+            :mouseDrag="false"
+          >
+            <slide>
+              <b-container class="my-5">
+                <b-row>
+                  <b-col>
+                    <h4>How to play?</h4>
 
-                  <div class="py-2">
-                    <ul>
-                      <li class="py-2">
-                        There will be 3 <code>x86</code> assembly snippets, each representing a function, with varying levels of difficulty.
-                      </li>
-                      <li class="py-2">
-                        The AMD64 calling convention will be followed, i.e. arguments are in registers <code>rdi</code>, <code>rsi</code>, <code>rdx</code>, ... and <code>rax</code> will contain the return value.
-                      </li>
-                      <li class="py-2">
-                        You will provide a C function that best represents that snippet, which will be validated by the server through a series of test cases.
-                      </li>
-                    </ul>
-                  </div>
-                </b-col>
-                
-                <b-col offset="1">
-                  <p>For example, given</p>
+                    <div class="py-2">
+                      <ul>
+                        <li class="py-2">
+                          There will be 3 <code>x86</code> assembly snippets, each representing a function, with varying levels of difficulty.
+                        </li>
+                        <li class="py-2">
+                          The AMD64 calling convention will be followed, i.e. arguments are in registers <code>rdi</code>, <code>rsi</code>, <code>rdx</code>, ... and <code>rax</code> will contain the return value.
+                        </li>
+                        <li class="py-2">
+                          You will provide a C function that best represents that snippet, which will be validated by the server through a series of test cases.
+                        </li>
+                      </ul>
+                    </div>
+                  </b-col>
+                  
+                  <b-col offset="1">
+                    <p>For example, given</p>
 
-                  <code class="code">xor eax, eax;
-add eax, 1;
-add eax, edi;</code>
+                    <code class="code">xor eax, eax;
+  add eax, 1;
+  add eax, edi;</code>
 
-                  <p class="mt-4">
-                    As a function, with argument <code>a</code>, the return value would be <code>a + 1</code>. So, our answer to this puzzle would be
-                  </p>
+                    <p class="mt-4">
+                      As a function, with argument <code>a</code>, the return value would be <code>a + 1</code>. So, our answer to this puzzle would be
+                    </p>
 
-                  <code class="code">int f(int a)
-{
-  return a + 1;
-}</code>
-                </b-col>
-              </b-row>
+                    <code class="code">int f(int a)
+  {
+    return a + 1;
+  }</code>
+                  </b-col>
+                </b-row>
 
-              <div class="text-center" v-if="!isStart">          
-                <a class="btn btn-primary mt-5 text-white" @click="start">
-                  Start
-                </a>
-              </div>
+                <div class="text-center" v-if="!isStart">          
+                  <a class="btn btn-primary mt-5 text-white" @click="start">
+                    Start
+                  </a>
+                </div>
 
-            </b-container>
-          </slide>
-          <slide v-if="isStart">
-            <Puzzle :num="0" @viewResults="viewResults" />
-          </slide>
-          <slide v-if="isStart">
-            <Puzzle :num="1" @viewResults="viewResults"/>
-          </slide>
-          <slide v-if="isStart">
-            <Puzzle :num="2" @viewResults="viewResults"/>
-          </slide>
-          <slide v-if="isDone">              
-            <Result />
-          </slide>
-        </carousel>
+              </b-container>
+            </slide>
+            <slide v-if="isStart">
+              <Puzzle :num="0" @viewResults="viewResults" />
+            </slide>
+            <slide v-if="isStart">
+              <Puzzle :num="1" @viewResults="viewResults"/>
+            </slide>
+            <slide v-if="isStart">
+              <Puzzle :num="2" @viewResults="viewResults"/>
+            </slide>
+            <slide v-if="isDone">              
+              <Result />
+            </slide>
+          </carousel>
+        </no-ssr>
       </div>
     </b-container>
   </div>
