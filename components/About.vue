@@ -41,12 +41,12 @@
         <li>
           Contribute code on <a href="https://github.com/pvpasm/pvpasm">Github</a>
         </li>
-        <li>
+        <!-- <li>
           Provide suggestions or report problems on <a href="#">Discord</a>
         </li>
         <li>
           Donate
-        </li>
+        </li> -->
       </ul>
       
     </b-card>
