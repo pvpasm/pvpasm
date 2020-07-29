@@ -1,0 +1,408 @@
+body {
+    background-color: #0f1214;
+    color: #f0f7fc;
+    font-family: 'Inconsolata', monospace;
+    margin: 0;
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    margin: 1.25rem 1.5rem;
+    color: #bbe1fa;
+    font-weight: bold;
+    font-family: 'Inconsolata', monospace;
+    /* font-family: 'Roboto', sans-serif; */
+}
+
+#navbar a {
+    margin: 0.25rem 0.5rem;
+}
+
+#navbar a:link {
+    color: #c7d4dd;
+    text-decoration: none;
+}
+
+#navbar a:visited {
+    color: #c7d4dd;
+    text-decoration: none;
+}
+
+#navbar a:hover {
+    color: #6b99b8;
+    text-decoration: none;
+}
+
+#nav-current {
+    color: #a2d8fc !important;
+}
+
+#nav-left {
+    margin-right: auto;
+}
+
+#nav-right {
+    margin-left: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 3.5rem 8rem;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+.header {
+    margin-bottom: 1rem;
+}
+
+.learn-category {
+    margin: 1.5rem;
+}
+
+.learn-list {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.learn-btn {
+    background-color: #f0f7fc;
+    color: #1c2629;
+    /* padding: 0.25rem 0.5rem; */
+    border-radius: 2px;
+    width: 1.7rem;
+    height: 1.5rem;
+    margin: 0.25rem;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 0.3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.news-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.3rem;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: fit-content;
+}
+
+.news-item {
+    background-color: #1c2629;
+    width: 80%;
+    border-radius: 3px;
+    padding: 0 2rem 1rem 2rem;
+}
+
+.news-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.news-content {
+    margin-top: 1.3rem;
+}
+
+.todo-title {
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding-left: 1.3rem;
+}
+
+.todo-list {
+    width: 40%;
+    background-color: #1c2629;
+    border-radius: 3px;
+    padding: 0.6rem 1rem 1rem 1rem;
+}
+
+.todo-item {
+    margin: 1rem;
+}
+
+.todo-item>i {
+    font-size: 0.8rem;
+}
+
+#main-container {
+    display: flex;
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 4.7rem);
+    align-items: stretch;
+    margin: 1rem;
+}
+
+#left-container {
+    width: 60%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#right-container {
+    width: 40%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#vertical-dragbar {
+    /* background-color: #bbe1fa; */
+    width: 0.8rem;
+    cursor: col-resize;
+    /* height: 100%; */
+}
+
+#left-horizontal-dragbar {
+    /* background-color: #bbe1fa; */
+    height: 0.8rem;
+    cursor: row-resize;
+}
+
+#right-horizontal-dragbar {
+    /* background-color: #bbe1fa; */
+    height: 0.8rem;
+    cursor: row-resize;
+}
+
+#graph-box {
+    background-color: #1c2629;
+    color: #bbe1fa;
+    height: 95%;
+    border-radius: 2px;
+    padding: 0.8rem;
+    overflow: hidden;
+    /* height: 100%; */
+}
+
+#control-box {
+    background-color: #1c2629;
+    color: #f0f7fc;
+    height: fit-content;
+    border-radius: 2px;
+    padding: 0.8rem;
+
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#notes-box {
+    height: 60%;
+    border-radius: 2px;
+}
+
+#notes-area {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #1c2629;
+    color: #bbe1fa;
+    padding: 1rem;
+    resize: none;
+    border-radius: 2px;
+    tab-size: 4;
+    font-size: 16px;
+    font-family: "Inconsolata", monospace;
+}
+
+#code-editor-box {
+    background-color: #1c2629;
+    color: #bbe1fa;
+    height: 40%;
+    padding: 0.8rem 0.2rem;
+    border-radius: 2px;
+}
+
+#code-editor {
+    width: 100%;
+    height: 100%;
+}
+
+#ctrl-btns {
+    width: fit-content;
+    display: flex;
+    margin-left: auto;
+}
+
+i {
+    font-size: 1.4rem;
+    margin: auto 0.5rem;
+    color: #f0f7fc;
+}
+
+.i-btn {
+    cursor: pointer;
+}
+
+.i-btn:hover {
+    color: #677e8f;
+}
+
+#lang-select {
+    border-style: none;
+    border-radius: 2px;
+    background-color: #030e18;
+    color: #f0f7fc;
+    height: 2rem;
+    width: 4.8rem;
+    margin: auto 0.5rem;
+    padding: 0.5rem;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+#level-category {
+    font-size: 0.9rem;
+    margin-right: 0;
+}
+
+#level-num {
+    margin: auto 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#status-msg-box {
+    margin: 0.5rem 0 1rem 0;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.9rem;
+    overflow: scroll;
+    height: fit-content;
+    width: 100%;
+    border: 1px solid #464e55;
+    border-radius: 3px;
+    padding: 0;
+    display: none;
+}
+
+#status-msg-content {
+    padding: 0.8rem;
+    white-space: pre;
+}
+
+.status-correct {
+    color: rgb(60, 235, 176);
+}
+
+.status-wrong {
+    color: rgb(255, 47, 47);
+}
+
+#spinner-submit {
+    display: none;
+}
+
+.graph-block {
+    fill: #212224;
+    stroke: #464e55;
+    stroke-width: 2;
+}
+
+.graph-text {
+    font-family: 'Inconsolata', monospace;
+    fill: white;
+    /* stroke: white; */
+    font-weight: 400;
+}
+
+.graph-fn-name {
+    fill: rgb(154, 181, 214);
+    stroke: rgb(154, 181, 214);
+    /* font-weight: bold; */
+}
+
+.graph-arrow {
+    stroke-width: 2;
+}
+
+.graph-red-arrow {
+    stroke: rgb(128, 23, 23);
+}
+
+.graph-green-arrow {
+    stroke: rgb(32, 110, 84);
+}
+
+.graph-blue-arrow {
+    stroke: rgb(46, 78, 146);
+}
+
+#graph-red-arrowhead {
+    fill: rgb(128, 23, 23);
+    stroke: rgb(128, 23, 23);
+}
+
+#graph-green-arrowhead {
+    fill: rgb(32, 110, 84);
+    stroke: rgb(32, 110, 84);
+}
+
+#graph-blue-arrowhead {
+    fill: rgb(46, 78, 146);
+    stroke: rgb(46, 78, 146);
+}
+
+.graph-text-red {
+    fill: rgb(185, 36, 36);
+}
+
+#form-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 7rem auto;
+}
+
+.form-input {
+    margin: 0.3rem;
+    border-radius: 2px;
+    border-style: none;
+    height: 2rem;
+    font-family: 'Inconsolata', monospace;
+    font-size: 1rem;
+    background-color: #f0f7fc;
+    padding: 0.5rem;
+    font-weight: 600;
+}
+
+.form-button {
+    margin-left: auto;
+    margin-right: 0.3rem;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    border-style: none;
+    background-color: #f0f7fc;
+    padding: 0.5rem;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/*
+https://colorhunt.co/palette/196113
+1b262c 
+0f4c75
+3282b8
+bbe1fa
+*/

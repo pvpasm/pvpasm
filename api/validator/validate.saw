@@ -1,0 +1,13 @@
+set_base 16;
+
+print "Extracting chall";
+chall_mod <- llvm_load_module "chall.bc";
+foo_chall <- crucible_llvm_extract chall_mod "foo";
+
+print "Extracting submission";
+sub_mod <- llvm_load_module "submission.bc";
+foo_sub <- crucible_llvm_extract sub_mod "foo";
+
+let thm = {{ \x -> foo_chall x == foo_sub x }};
+result <- prove abc thm;
+print result;

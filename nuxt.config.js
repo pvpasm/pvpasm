@@ -1,63 +1,63 @@
-const pkg = require('./package')
 
-module.exports = {
+export default {
+  /*
+  ** Nuxt rendering mode
+  ** See https://nuxtjs.org/api/configuration-mode
+  */
   mode: 'universal',
-
+  /*
+  ** Nuxt target
+  ** See https://nuxtjs.org/api/configuration-target
+  */
+  target: 'server',
   /*
   ** Headers of the page
+  ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title: pkg.name,
+    title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Orbitron'},
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Code+Pro'},
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Karla'}
+      { rel: 'stylesheet', href: 'css/style.css' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Inconsolata' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto' }
     ]
   },
-
-  /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
-
   /*
   ** Global CSS
   */
   css: [
-    '@assets/css/bootstrap.min.css',
-    '@assets/css/pvpasm.css',
-    // lib css
-    'codemirror/lib/codemirror.css',
-    // merge css
-    'codemirror/addon/merge/merge.css',
-    // theme css
-    'codemirror/theme/material.css'
   ],
-
   /*
   ** Plugins to load before mounting the App
+  ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '~plugins/vue-carousel', ssr: false },
-    { src: '~plugins/vue-codemirror', ssr: false }
   ],
-
+  /*
+  ** Auto import components
+  ** See https://nuxtjs.org/api/configuration-components
+  */
+  components: true,
+  /*
+  ** Nuxt.js dev-modules
+  */
+  buildModules: [
+    '@nuxt/typescript-build',
+    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
+    '@nuxtjs/tailwindcss',
+  ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    ['bootstrap-vue/nuxt', { css: false }],    
     ['nuxt-fontawesome', {
-      component: 'fa', 
+      component: 'fa',
       imports: [
         //import whole set
         {
@@ -65,44 +65,22 @@ module.exports = {
           icons: ['fas']
         }
       ]
-    }],
-    'cookie-universal-nuxt'
+    }]
   ],
   /*
-  ** Axios module configuration
+  ** Server Middleware
   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  serverMiddleware: {
+    '/api': '~/api'
   },
-
   /*
   ** Build configuration
+  ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
   },
 
-  /*
-  ** Router middleware
-  */
-  router: {
-    middleware: ['ssr-cookie']
+  fontawesome: {
+    component: 'fa'
   },
-
-  axios: {
-    proxy: true
-  }
 }
