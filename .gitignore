@@ -84,3 +84,5 @@ dist
 sw.*
 
 .vscode
+
+api/validator/saw
